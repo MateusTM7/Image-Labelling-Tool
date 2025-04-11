@@ -1,0 +1,5 @@
+- Arrumar bug redimensionar + zoom
+- Arrumar bug fechar select box quando outra é aberta ou apertado fora dela. Além de colocar focus e efeito de hoover.
+- Fazer responsivo
+- Adicionar hover para o color picker
+- Adicionar shadow box na imagem e na tabela

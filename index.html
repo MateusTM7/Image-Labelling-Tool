@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiscal - Tools</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar closed">
+        <div class="logo-container">
+            <a href="https://fiscaltech.com.br/" target="_blank" class="logo-link">
+                <img src="assets/logo.jpg" alt="Logo" class="logo" />
+              </a>
+        </div>
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#" class="nav-link">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>Image Labelling Tool</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
+    <main id="mainContent" class="expanded">
+        <header class="main-header">
+            <button id="breadcrumb" class="breadcrumb"><i class="fa-solid fa-bars"></i></button>
+            Image Labelling Tool
+        </header>
+        <div class="overlay" id="mainOverlay">
+            <div class="spinner"></div>
+        </div><!--overlay-->
+        <div class="container">
+            <div class="left">
+                <div class="image-container">
+                    <div class="image-placeholder">
+                        <i class="fa-solid fa-image" style="color: var(--text-color); font-size: 48px;"></i>
+                      </div><!--image-placeholder-->
+                    <!--<img id="imageElement" src=""" alt="Image" />-->
+                    <canvas id="imageCanvas"></canvas>
+                </div><!--image-container-->
+            </div><!--left-->
+            <div class="right">
+                <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+                <button id="loadImageButton" class="button fade show" title="Carregar Imagem">
+                    <span>Carregar Imagem</span>
+                    <i class="fa-solid fa-image"></i>
+                </button>
+                <div class="area-section fade hide" style="display:none;">
+                    <div class="button-group">
+                        <button class="button" id="addAreaButton" title="Adicionar area">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </button>
+                        <button class="button" id="zoomModeButton" title="Ativar/Desativar modo de zoom">
+                            <i class="fa-solid fa-magnifying-glass-plus"></i>
+                          </button>
+                          <button class="button" id="zoomRemoveButton" title="Limpar zoom aplicado">
+                            <i class="fa-solid fa-magnifying-glass-minus"></i>
+                          </button>
+                      </div>
+                    <table class="area-table">
+                        <thead>
+                            <tr>
+                                <th>Area ID</th>
+                                <th>Traffic Light Type</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table><!--area-table-->
+                </div><!--area-section-->
+            </div><!--right-->
+        </div><!--container-->
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
