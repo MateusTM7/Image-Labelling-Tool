@@ -370,7 +370,6 @@ export function init() {
     // Configura o botão para acionar o seletor de arquivos.
     loadImageButton?.addEventListener('click', () => {
         imageUpload.click();
-        console.log("aqui")
     });
 
     // Processa a imagem selecionada pelo usuário.

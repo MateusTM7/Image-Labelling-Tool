@@ -50,7 +50,7 @@ async function renderRoute() {
         if (path === '#/image-labelling') {
             import('./pages/image-labelling.js').then(module => {
                 module.init();  // Chama a função 'init' do módulo de rotulagem de imagem.
-                console.log("image-labelling.js loaded");
+                //console.log("image-labelling.js loaded");
             });
         }
     } catch (e) {
