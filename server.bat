@@ -1,6 +1,6 @@
 @echo off
 :: Defina o caminho desejado aqui
-set "CAMINHO=D:\Work\Servicos\Japa\canva"
+set "CAMINHO=D:\Work\Servicos\Japa\Image-Labelling-Tool"
 
 :: Obtém a unidade do caminho
 for %%I in ("%CAMINHO%") do set "UNIDADE=%%~dI"

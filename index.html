@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fiscal - Tools</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" href="favicon.ico" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js" crossorigin="anonymous"></script>
+    <!-- SEO Básico -->
+    <title>FiscalTech - Tools</title>
+    <meta name="description" content="FiscalTech's image markup tool. Upload, edit markups, and export areas in images with precision.">
+    <meta name="keywords" content="FiscalTech, tool, image tagging, image labelling, image annotation, artificial intelligence">
+    <meta name="author" content="FiscalTech">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script src="libs/fabric.min.js"></script>
+    <script src="libs/all.min.js"></script>
 </head>
 <body>
     <aside id="sidebar" class="sidebar closed">
@@ -36,44 +41,54 @@
     </aside>
     <main id="mainContent" class="expanded">
         <header class="main-header">
-            <button id="breadcrumb" class="breadcrumb"><i class="fa-solid fa-bars"></i></button>
+            <button id="breadcrumb" class="breadcrumb" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
             Image Labelling Tool
         </header>
         <div class="overlay" id="mainOverlay">
             <div class="spinner"></div>
         </div><!--overlay-->
+        <div class="alert-box" id="alertBox">
+            <span class="title">Alerta <i class="fa-solid fa-triangle-exclamation"></i></span>
+            <span class="mensagem">Mensagem de teste</span>
+        </div>
         <div class="container">
+            <div class="image-labelling">
             <div class="left">
-                <div class="image-container">
-                    <div class="image-placeholder">
-                        <i class="fa-solid fa-image" style="color: var(--text-color); font-size: 48px;"></i>
-                      </div><!--image-placeholder-->
-                    <!--<img id="imageElement" src=""" alt="Image" />-->
-                    <canvas id="imageCanvas"></canvas>
-                </div><!--image-container-->
+                <div class="image-wrapper">
+                    <div class="image-container">
+                        <div class="image-placeholder">
+                            <i class="fa-solid fa-image" style="color: var(--text-color); font-size: 48px;"></i>
+                        </div><!--image-placeholder-->
+                        <canvas id="imageCanvas"></canvas>
+                    </div><!--image-container-->
+                </div><!--image-wrapper-->
             </div><!--left-->
             <div class="right">
                 <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
-                <button id="loadImageButton" class="button fade show" title="Carregar Imagem">
-                    <span>Carregar Imagem</span>
+                <button id="loadImageButton" class="button fade show" title="Load Image">
+                    <span>Load Image</span>
                     <i class="fa-solid fa-image"></i>
                 </button>
                 <div class="area-section fade hide" style="display:none;">
                     <div class="button-group">
-                        <button class="button" id="addAreaButton" title="Adicionar area">
+                        <button class="button" id="addAreaButton" title="Add area">
                             <i class="fa-solid fa-layer-group"></i>
                         </button>
-                        <button class="button" id="zoomModeButton" title="Ativar/Desativar modo de zoom">
+                        <button class="button" id="zoomModeButton" title="Active/Deactive zoom">
                             <i class="fa-solid fa-magnifying-glass-plus"></i>
                           </button>
-                          <button class="button" id="zoomRemoveButton" title="Limpar zoom aplicado">
+                          <button class="button" id="zoomRemoveButton" title="Clear zoom">
                             <i class="fa-solid fa-magnifying-glass-minus"></i>
+                          </button>
+                          <button class="button" id="exportAreas" title="Export areas">
+                            <span>Export ROIs</span>
+                            <i class="fa-solid fa-file-export"></i>
                           </button>
                       </div>
                     <table class="area-table">
                         <thead>
                             <tr>
-                                <th>Area ID</th>
+                                <th>Area</th>
                                 <th>Traffic Light Type</th>
                             </tr>
                         </thead>
@@ -82,8 +97,14 @@
                     </table><!--area-table-->
                 </div><!--area-section-->
             </div><!--right-->
+            </div><!--image-labelling-->
         </div><!--container-->
     </main>
-    <script src="script.js"></script>
+    <script src="js/script.js"></script>
+    <noscript>
+        <div style="color: red; text-align: center; padding: 10px;">
+            This site requires JavaScript to function properly.
+        </div>
+      </noscript>
 </body>
 </html>
