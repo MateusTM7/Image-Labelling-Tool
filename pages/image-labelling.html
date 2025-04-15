@@ -1,0 +1,44 @@
+<div class="left">
+    <div class="image-wrapper">
+        <div class="image-container">
+            <div class="image-placeholder">
+                <i class="fa-solid fa-image" style="color: var(--text-color); font-size: 48px;"></i>
+            </div><!--image-placeholder-->
+            <canvas id="imageCanvas"></canvas>
+        </div><!--image-container-->
+    </div><!--image-wrapper-->
+</div><!--left-->
+<div class="right">
+    <input type="file" id="imageUpload" accept="image/*" style="display: none;" />
+    <button id="loadImageButton" class="button fade show" title="Load Image">
+        <span>Load Image</span>
+        <i class="fa-solid fa-image"></i>
+    </button>
+    <div class="area-section fade hide" style="display:none;">
+        <div class="button-group">
+            <button class="button" id="addAreaButton" title="Add area">
+                <i class="fa-solid fa-layer-group"></i>
+            </button>
+            <button class="button" id="zoomModeButton" title="Active/Deactive zoom">
+                <i class="fa-solid fa-magnifying-glass-plus"></i>
+              </button>
+              <button class="button" id="zoomRemoveButton" title="Clear zoom">
+                <i class="fa-solid fa-magnifying-glass-minus"></i>
+              </button>
+              <button class="button" id="exportAreas" title="Export areas">
+                <span>Export ROIs</span>
+                <i class="fa-solid fa-file-export"></i>
+              </button>
+          </div>
+        <table class="area-table">
+            <thead>
+                <tr>
+                    <th>Area</th>
+                    <th>Traffic Light Type</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table><!--area-table-->
+    </div><!--area-section-->
+</div><!--right-->

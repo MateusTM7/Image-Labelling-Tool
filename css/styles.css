@@ -223,23 +223,32 @@ aside {
 }
 
 .sidebar-nav {
-    display: block;
     margin-top: 35px;
+    opacity: 1;
     padding: 0 2%;
+    transition: all 0.3s ease;
     width: 100%;
 }
 
 .sidebar-nav ul {
     margin: 0;
     list-style: none;
+    opacity: 1;
     padding: 0;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 
 .sidebar-nav li {
+    text-align: center;
     margin-bottom: 15px;
+    opacity: 1;
+    transition: all 0.3s ease;
+    width: 100%;
 }
 
 .nav-link {
+    align-items: center;
     background-color: #fff;
     border-radius: 5px;
     color: var(--text-color);
@@ -248,9 +257,12 @@ aside {
     font-weight: 500;
     height: 35px;
     justify-content: space-between;
+    margin: 0 auto;
+    opacity: 1;
     padding: 10px 15px;
     text-decoration: none;
     transition: all 0.3s;
+    width: 100%;
 }
 
 .nav-link:hover {
@@ -259,11 +271,14 @@ aside {
 }
 
 .nav-link i {
+    font-size: 14px;
     width: 15%;
 }
 
 .nav-link span {
     display: block;
+    font-size: 14px;
+    padding-left: 10px;
     width: 85%;
 }
 
@@ -276,6 +291,16 @@ aside {
 .sidebar.closed .sidebar-nav {
     opacity: 0;
     pointer-events: none;
+}
+
+.sidebar.closed .sidebar-nav,
+.sidebar.closed .sidebar-nav ul,
+.sidebar.closed .sidebar-nav li,
+.sidebar.closed .sidebar-nav .nav-link {
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    width: 100%;;
 }
 
 main {
@@ -346,7 +371,7 @@ main.expanded {
     width: 100%;
 }
 
-.image-labelling {
+.app {
     display: flex;
     flex-direction: row;
     height: 100%;
@@ -358,8 +383,12 @@ main.expanded {
 }
 
 /* ---------------------------------------------------------- */
-/* Canva from the left side */
 
+/* ---------------------------------------------------------- */
+/* IMAGE LABELLING PAGE */
+/* ---------------------------------------------------------- */
+
+/* Canva from the left side */
 .left {
     align-items: center;
     display: flex;
@@ -471,6 +500,7 @@ main.expanded {
 }
 
 .area-table td {
+    height: 40px;
     font-size: 13px;
     padding: 8px;
 }
@@ -564,6 +594,8 @@ main.expanded {
 .custom-select {
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
+    height: 100%;
+    max-height: 40px;
     position: relative;
     user-select: none;
     width: 80%;
@@ -578,6 +610,7 @@ main.expanded {
     display: flex;
     font-size: 13px;
     gap: 5px;
+    height: 40px;
     justify-content: space-between;
     padding: 8px 10px;
     position: relative;
@@ -594,6 +627,7 @@ main.expanded {
 }
 
 .selected-option img {
+    background-color: transparent;
     display: none;
     height: 20px;
     object-fit: contain;
@@ -603,7 +637,6 @@ main.expanded {
 .selected-option img.selected-img {
     display: none;
     height: 20px;
-
     object-fit: contain;
     width: 20px;
 }
@@ -677,10 +710,23 @@ main.expanded {
 
 @media (max-width: 1200px) {
 
+    .nav-link i {
+        font-size: 12px;
+        width: 10%;
+    }
+    
+    .nav-link span {
+        font-size: 12px;
+        width: 90%;
+    }
+
     .main-header {
         font-size: 16px;
     }
 
+    /* ---------------------------------------------------------- */
+    /* IMAGE LABELLING PAGE */
+    /* ---------------------------------------------------------- */
     .left {
         width: 65%;
     }
@@ -705,6 +751,17 @@ main.expanded {
         display: none;
     }
 
+    .nav-link i {
+        font-size: 10px;
+    }
+    
+    .nav-link span {
+        font-size: 10px;
+    }
+
+    /* ---------------------------------------------------------- */
+    /* IMAGE LABELLING PAGE */
+    /* ---------------------------------------------------------- */
     .area-table th,
     .area-table td {
         font-size: 11px;
@@ -726,17 +783,33 @@ main.expanded {
         font-size: 10px;
     }
 
+    .nav-link {
+        max-width: 46px;
+        text-align: center;
+    }
+
+    .nav-link i {
+        display: block;
+        width: 100%;
+    }
+
+    .nav-link span {
+        display: none;
+    }
+
     .main-header {
         font-size: 13px;
     }
 
-
-    .image-labelling {
+    .app {
         align-items: center;
         flex-direction: column;
         gap: 40px;
     }
 
+    /* ---------------------------------------------------------- */
+    /* IMAGE LABELLING PAGE */
+    /* ---------------------------------------------------------- */
     .left,
     .right {
         align-items: center;
