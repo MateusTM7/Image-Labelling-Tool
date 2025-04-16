@@ -74,37 +74,6 @@ export function init() {
     const areasData = [];  // Array para armazenar dados de cada área.
 
     // ============================================================================
-    // BLOQUEIO DE BOTÕES.
-    // ============================================================================
-
-    /**
-     * Desativa temporariamente um botão para prevenir múltiplos cliques rápidos.
-     * @param {HTMLElement} button - O botão clicado.
-     * @param {number} delay - Tempo em milissegundos para reabilitar o botão (padrão: 1000ms).
-     */
-    function preventSpamClicks(button, delay = 1000) {
-        // Se o botão já estiver desabilitado, não faz nada
-        if (button.disabled) return;
-
-        // Desativa o botão
-        button.disabled = true;
-
-        // Reativa o botão após o tempo especificado
-        setTimeout(() => {
-            button.disabled = false;
-        }, delay);
-    }
-
-    // Seleciona todos os elementos com a classe .button
-    document.querySelectorAll('.button').forEach(btn => {
-        // Adiciona um ouvinte de clique em cada botão
-        btn?.addEventListener('click', function (e) {
-            // Chama a função que previne spam
-            preventSpamClicks(btn);
-        });
-    });
-
-    // ============================================================================
     // GERENCIAMENTO DO SELETOR PERSONALIZADO.
     // ============================================================================
 
