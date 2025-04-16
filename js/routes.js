@@ -3,7 +3,7 @@ const routes = {
     '': { title: 'Home', html: '/pages/home.html' },  // Rota padrão, página inicial.
     '#/home': { title: 'Home', html: '/pages/home.html' },  // Rota para a página inicial.
     '#/image-labelling': { title: 'Image Labelling Tool', html: '/pages/image-labelling.html' },  // Rota para a ferramenta de rotulagem de imagens.
-    '#/config': { title: 'Configurations', html: '/pages/configuration.html' }  // Rota para a página de configurações.
+    '#/configuration': { title: 'Configurations', html: '/pages/configuration.html' }  // Rota para a página de configurações.
 };
 
 // Elementos DOM que serão manipulados
@@ -58,6 +58,21 @@ async function renderRoute() {
     } catch (e) {
         // Se ocorrer um erro ao carregar o script da rota '/image-labelling', exibe uma mensagem de erro.
         console.log("Error in loading the image-labelling.js file or the config.json file.");
+    }
+
+    // Tenta carregar e inicializar scripts específicos para a rota '/configuration'.
+    try {
+        if (path === '#/configuration') {
+            // Primeiro importa o config e aguarda o carregamento do JSON
+            const { configPromise } = await import('./config/config.js');
+            await configPromise;
+            // Só depois importa o módulo da página e inicia
+            const module = await import('./pages/configuration.js');
+            module.init();
+        }
+    } catch (e) {
+        // Se ocorrer um erro ao carregar o script da rota '/image-labelling', exibe uma mensagem de erro.
+        console.log("Error in loading the configuration.js file or the config.json file.");
     }
 
     showLoading(false);  // Oculta o overlay de carregamento após o processo ser concluído.

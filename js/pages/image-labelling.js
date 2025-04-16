@@ -4,10 +4,7 @@
  * e funcionalidades de zoom em uma aplicação de rotulagem.
  */
 
-// ============================================================================
-// GERENCIAMENTO DO MENU LATERAL.
-// ============================================================================
-
+import { showAlert } from '../utils/alertManager.js';
 import { MAX_AREAS } from '../config/config.js';
 
 export function init() {
@@ -75,47 +72,6 @@ export function init() {
 
     const rectsMap = new Map();  // Mapa para armazenar referências aos retângulos.
     const areasData = [];  // Array para armazenar dados de cada área.
-
-    // ============================================================================
-    // GERAÇÃO DE ALERTA.
-    // ============================================================================
-
-    const alertQueue = [];
-    let isAlertShowing = false;
-
-    function showAlert(title = 'Alert', message = 'Test Message') {
-        alertQueue.push({ title, message });
-        processAlertQueue();
-    }
-
-    function processAlertQueue() {
-        if (isAlertShowing || alertQueue.length === 0) return;
-
-        isAlertShowing = true;
-
-        const { title, message } = alertQueue.shift();
-        const alertBox = document.getElementById('alertBox');
-        const titleSpan = alertBox.querySelector('.title');
-        const messageSpan = alertBox.querySelector('.mensagem');
-
-        titleSpan.textContent = title;
-        messageSpan.textContent = message;
-
-        // Garantir que .show aplique o top/opacity corretamente.
-        alertBox.style.display = 'flex';
-        requestAnimationFrame(() => {
-            alertBox.classList.add('show');
-        });
-
-        setTimeout(() => {
-            alertBox.classList.remove('show');
-            setTimeout(() => {
-                alertBox.style.display = 'none';
-                isAlertShowing = false;
-                processAlertQueue(); // Processa o próximo.
-            }, 400); // Espera a animação de saída.
-        }, 4000); // Duração visível.
-    }
 
     // ============================================================================
     // BLOQUEIO DE BOTÕES.
