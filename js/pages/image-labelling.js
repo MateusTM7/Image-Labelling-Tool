@@ -8,9 +8,11 @@
 // GERENCIAMENTO DO MENU LATERAL.
 // ============================================================================
 
+import { MAX_AREAS } from '../config/config.js';
+
 export function init() {
 
-        // ============================================================================
+    // ============================================================================
     // REFERÊNCIAS AOS ELEMENTOS DOM PRINCIPAIS.
     // ============================================================================
 
@@ -71,35 +73,8 @@ export function init() {
     // GERENCIAMENTO DE ÁREAS.
     // ============================================================================
 
-    let MAX_AREAS = 10;  // Número máximo de áreas que podem ser criadas.
     const rectsMap = new Map();  // Mapa para armazenar referências aos retângulos.
     const areasData = [];  // Array para armazenar dados de cada área.
-
-    // Carrega configuração do JSON.
-    fetch('./config/config.json')
-    .then(response => response.json())
-    .then(config => {
-        if (config.MAX_AREAS !== undefined) {
-            // Verifica se é um número ou uma string que pode ser convertida para número.
-            const maxAreasValue = Number(config.MAX_AREAS);
-            
-            // Verifica se o valor é um número válido e positivo.
-            if (!isNaN(maxAreasValue) && maxAreasValue > 0 && Number.isInteger(maxAreasValue)) {
-                MAX_AREAS = maxAreasValue;
-                // Descomentar caso queira testar.
-                //console.log(`MAX_AREAS configured to: ${MAX_AREAS}`);
-            }
-            // Descomentar caso queira testar.
-            /*
-            } else {
-                console.warn(`Invalid value for MAX_AREAS: ${config.MAX_AREAS}. Using the default value: 10.`);
-            }
-            */
-        }
-    })
-    .catch(err => {
-        console.warn('Loading config.json error.Using the default value.', err);
-    });
 
     // ============================================================================
     // GERAÇÃO DE ALERTA.
