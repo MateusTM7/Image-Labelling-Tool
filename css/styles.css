@@ -127,6 +127,7 @@
     
         --color-picker-background: transparent;
         --color-picker-border: var(--primary-color);
+        --color-picker-border-hover: var(--lighter-gray);
     
         --selected-background: var(--white);
         --selected-border: var(--lighter-gray);
@@ -249,7 +250,8 @@
         --delete-text-hover: var(--terciary-color);
     
         --color-picker-background: transparent;
-        --color-picker-border: var(--terciary-color);
+        --color-picker-border: var(--light-gray);
+        --color-picker-border-hover: var(--terciary-color);
     
         --selected-background: var(--dark-gray);
         --selected-border: var(--light-gray);
@@ -1072,6 +1074,7 @@ main.expanded {
 }
 
 .color-picker:hover {
+    border: 1px solid var(--color-picker-border-hover);
     opacity: 0.7;
 }
 

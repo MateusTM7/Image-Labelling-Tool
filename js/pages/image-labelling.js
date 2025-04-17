@@ -982,8 +982,6 @@ export function init() {
             canvas.defaultCursor = "crosshair";
         } else {
             // Quando desativa o modo zoom:
-            // Reativa a seleção de objetos.
-            canvas.selection = true;
             // Restaura o cursor padrão.
             canvas.defaultCursor = "default";
         }
