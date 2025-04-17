@@ -423,23 +423,23 @@ export function init() {
             canvas.renderAll();
         }
 
+        rect.on('selected', function() {
+            canvas.bringToFront(label);
+        });
+
         // Adiciona eventos para manter a etiqueta sincronizada com o retângulo.
-        rect.on('moving', updateLabelPosition);
-        rect.on('scaling', updateLabelPosition);
-        rect.on('modified', updateLabelPosition);
+        const throttledUpdateLabel = throttle(updateLabelPosition, 50);
+        rect.on('moving', throttledUpdateLabel);
+        rect.on('scaling', throttledUpdateLabel);
+        rect.on('modified', throttledUpdateLabel);
 
-        // Eventos para atualizar dados da área quando o retângulo é modificado.
-        rect.on('modified', function() {
+        const throttledUpdateAreaMoving = throttle(function() {
             updateAreaData(this.id);
-        });
+        }, 50);
+        rect.on('moving', throttledUpdateAreaMoving);
+        rect.on('scaling', throttledUpdateAreaMoving);
+        rect.on('modified', throttledUpdateAreaMoving);
 
-        rect.on('moving', function() {
-            updateAreaData(this.id);
-        });
-
-        rect.on('scaling', function() {
-            updateAreaData(this.id);
-        });
 
         // Armazena referência ao retângulo para acesso futuro.
         rectsMap.set(id, rect);
