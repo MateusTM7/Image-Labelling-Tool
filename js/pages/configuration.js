@@ -4,10 +4,11 @@
  */
 
 import { showAlert } from '../utils/alertManager.js';
-import { MAX_AREAS, BUTTON_DELAY_CLICK } from '../config/config.js';
+import { capitalize } from '../utils/strings.js'
+import { MAX_AREAS, BUTTON_DELAY_CLICK, UI_THEME, applyTheme } from '../config/config.js';
 
 export function init() {
-
+    
     // ===============================
     // MAX_AREAS SECTION
     // ===============================
@@ -49,31 +50,32 @@ export function init() {
             event.preventDefault(); // Impede que o botão submeta o formulário e recarregue a página.
 
             // Obtém o valor atual do input e converte para número inteiro.
-            const value = parseInt(maxAreasInput.value, 10);
+            const maxAreasValue = parseInt(maxAreasInput.value, 10);
     
             // Verifica se é um número válido, dentro do intervalo permitido e diferente do valor atual.
-            if (!isNaN(value) && value >= 1 && value <= 30 && value !== MAX_AREAS) {
+            if (!isNaN(maxAreasValue) && maxAreasValue >= 1 && maxAreasValue <= 30 && maxAreasValue  !== MAX_AREAS) {
                 try {
                     // Envia uma requisição POST para o backend com o novo valor de MAX_AREAS.
                     
                     // ===========================================================
                     // PRECISA IMPLEMENTAR NO BACK.
                     // ===========================================================
-                    
+
+                    const bodyDataMaxAreas = { MAX_AREAS: maxAreasValue };
+                    console.log('Enviando:', JSON.stringify(bodyDataMaxAreas));
+
                     const response = await fetch('/api/config/max-areas', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify({ MAX_AREAS: value }), // Corpo da requisição com o novo valor.
+                        body: JSON.stringify(bodyDataMaxAreas), // Corpo da requisição com o novo valor.
                     });
-
-                    console.log(JSON.stringify({ MAX_AREAS: value }))
     
                     // Verifica se a resposta foi bem-sucedida.
                     if (response.ok) {
                         // Exibe um alerta de sucesso usando o alertManager.
-                        showAlert('Success', `MAX_AREAS updated to ${value}.`);
+                        showAlert('Success', `MAX_AREAS updated to ${maxAreasValue}.`);
                     } else {
                         // Exibe um alerta de erro genérico caso a atualização falhe.
                         showAlert('Error', 'Failed to update the configuration.');
@@ -123,11 +125,12 @@ export function init() {
 
     if (setDelayButton && delayInput) {
         setDelayButton.addEventListener('click', async (event) => {
+
             event.preventDefault();
 
-            const value = parseInt(delayInput.value, 10);
+            const delayValue = parseInt(delayInput.value, 10);
 
-            if (!isNaN(value) && value >= 500 && value <= 10000 && value !== BUTTON_DELAY_CLICK) {
+            if (!isNaN(delayValue) && delayValue >= 500 && delayValue <= 10000 && delayValue !== BUTTON_DELAY_CLICK) {
 
                 // Envia uma requisição POST para o backend com o novo valor de BUTTON_DELAY_CLICK.
                     
@@ -136,19 +139,19 @@ export function init() {
                 // ===========================================================
 
                 try {
-                    const bodyData = { BUTTON_DELAY_CLICK: value };
-                    console.log('Enviando:', JSON.stringify(bodyData));
+                    const bodyDataButtonDelayClick = { BUTTON_DELAY_CLICK: delayValue };
+                    console.log('Enviando:', JSON.stringify(bodyDataButtonDelayClick));
 
                     const response = await fetch('/api/config/button-delay-click', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                         },
-                        body: JSON.stringify(bodyData),
+                        body: JSON.stringify(bodyDataButtonDelayClick),
                     });
 
                     if (response.ok) {
-                        showAlert('Success', `BUTTON_DELAY_CLICK updated to ${value}ms.`);
+                        showAlert('Success', `BUTTON_DELAY_CLICK updated to ${delayValue} ms.`);
                     } else {
                         showAlert('Error', 'Failed to update the configuration.');
                     }
@@ -161,4 +164,127 @@ export function init() {
             }
         });
     }
+
+    // ===============================
+    // UI_THEME SECTION
+    // ===============================
+
+    const themeSelector = document.getElementById('themeSelector');
+    const themeButton = document.getElementById('setThemeButton');
+  
+    if (themeSelector) {
+      themeSelector.addEventListener('click', function (e) {
+        const selectedOption = e.target.closest('.selected-option');
+        const option = e.target.closest('.option');
+  
+        // Clique na caixa para abrir/fechar
+        if (selectedOption) {
+          const optionsContainer = selectedOption.nextElementSibling;
+  
+          // Fecha outros selects (se houver mais de um)
+          document.querySelectorAll('.options:not(.hidden)').forEach(dropdown => {
+            if (dropdown !== optionsContainer) {
+              dropdown.classList.add('hidden');
+              dropdown.style.display = 'none';
+            }
+          });
+  
+          if (optionsContainer.classList.contains('hidden')) {
+            optionsContainer.style.display = 'flex';
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                optionsContainer.classList.remove('hidden');
+              });
+            });
+          } else {
+            optionsContainer.classList.add('hidden');
+            optionsContainer.addEventListener('transitionend', function handler() {
+              if (optionsContainer.classList.contains('hidden')) {
+                optionsContainer.style.display = 'none';
+              }
+              optionsContainer.removeEventListener('transitionend', handler);
+            });
+          }
+  
+          return;
+        }
+  
+        // Clique em uma opção
+        if (option) {
+          const value = option.getAttribute('data-value');
+          const label = option.querySelector('span').textContent;
+  
+          themeSelector.querySelector('.selected-option span').textContent = label;
+  
+          // Fecha o dropdown
+          const optionsContainer = themeSelector.querySelector('.options');
+          optionsContainer.classList.add('hidden');
+          optionsContainer.addEventListener('transitionend', function handler() {
+            if (optionsContainer.classList.contains('hidden')) {
+              optionsContainer.style.display = 'none';
+            }
+            optionsContainer.removeEventListener('transitionend', handler);
+          });
+  
+          // Aplica o tema
+          applyTheme(value);
+        }
+      });
+    }
+
+    if (themeSelector && themeButton) {
+
+        // Define valor inicial com base na config atual
+        themeSelector.value = UI_THEME;
+
+            // Aplica o tema atual visualmente no custom select
+        const selectedSpan = themeSelector.querySelector('.selected-option span');
+        if (selectedSpan) {
+            selectedSpan.textContent = capitalize(UI_THEME);
+        }
+        
+        themeButton.addEventListener('click', async (event) => {
+
+            event.preventDefault();
+
+            const newTheme  = selectedSpan?.textContent?.toLowerCase();
+            if (!newTheme ) {
+                showAlert('Error', 'No theme selected.');
+                return;
+            }
+    
+            if (newTheme  === UI_THEME) {
+                showAlert('Attention', 'Theme is already applied.');
+                return;
+            }
+
+            // Envia uma requisição POST para o backend com o novo valor de UI_THEME.
+                    
+            // ===========================================================
+            // PRECISA IMPLEMENTAR NO BACK.
+            // ===========================================================
+
+            try {
+                const bodyDataUiTheme = { UI_THEME: newTheme };
+                console.log('Enviando:', JSON.stringify(bodyDataUiTheme));
+
+                const response = await fetch('/api/config/ui-theme', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bodyDataUiTheme)
+                });
+
+                if (response.ok) {
+                    applyTheme(newTheme); // Aplica sem recarregar a página.
+                    showAlert('Success', `Theme updated to "${newTheme}".`);
+                } else {
+                    showAlert('Error', 'Failed to update theme.');
+                }
+            } catch (err) {
+                console.error(err);
+                showAlert('Error', 'Error communicating with the server.');
+            }
+        });
+    }
+        
 }

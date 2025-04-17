@@ -2,13 +2,25 @@
 // GERENCIAMENTO DE ÁREAS.
 // ============================================================================
 
-let MAX_AREAS = 10;  // Número máximo de áreas que podem ser criadas.
-let BUTTON_DELAY_CLICK = 2000;
+let MAX_AREAS = 10;             // Número máximo de áreas que podem ser criadas.
+let BUTTON_DELAY_CLICK = 2000;  // Delay do botão em ms.
+let UI_THEME = 'light';         // Tema padrão.
+
+// Função para alterar tema de estilização.
+function applyTheme(theme) {
+    if (theme === 'dark' || theme === 'light') {
+        document.documentElement.setAttribute('data-theme', theme);
+    } else {
+        document.documentElement.setAttribute('data-theme', 'light'); // fallback
+    }
+}
 
 // Carrega configuração do JSON.
 const configPromise = fetch('./js/config/config.json')
 .then(response => response.json())
 .then(config => {
+
+    // ========== MAX_AREAS ==========
 
     // Verifica se é um número ou uma string que pode ser convertida para número.
     if (config.MAX_AREAS !== undefined) {
@@ -40,7 +52,9 @@ const configPromise = fetch('./js/config/config.json')
     */
     }
 
-    // Validar e ajustar BUTTON_DELAY_CLICK
+    // ========== BUTTON_DELAY_CLICK ==========
+
+    // Validar e ajustar BUTTON_DELAY_CLICK.
     if (config.BUTTON_DELAY_CLICK !== undefined) {
 
         // Verifica se é um número ou uma string que pode ser convertida para número.
@@ -71,11 +85,27 @@ const configPromise = fetch('./js/config/config.json')
         console.warn(`Invalid value for BUTTON_DELAY_CLICK: ${config.BUTTON_DELAY_CLICK}. Using the default value: 2000.`);
     }
     */
-    return { MAX_AREAS, BUTTON_DELAY_CLICK }; // <-- exportamos esse valor depois de carregado.
+
+    // ========== UI_THEME ==========
+
+    // Validar e ajustar UI_THEME.
+    if (typeof config.UI_THEME === 'string') {
+        const theme = config.UI_THEME.toLowerCase();
+
+        // Verifica se é um dos temas disponíveis.
+        if (['light', 'dark'].includes(theme)) {
+            UI_THEME = theme;
+        }
+    }
+    
+    applyTheme(UI_THEME);
+    document.documentElement.classList.remove('loading');
+
+    return { MAX_AREAS, BUTTON_DELAY_CLICK, UI_THEME }; // <-- exportamos esse valor depois de carregado.
 })
 .catch(err => {
     console.warn('Error loading config.json. Using default value.', err);
-    return { MAX_AREAS, BUTTON_DELAY_CLICK };
+    return { MAX_AREAS, BUTTON_DELAY_CLICK, UI_THEME };
 });
 
-export { configPromise, MAX_AREAS, BUTTON_DELAY_CLICK };
+export { applyTheme, configPromise, MAX_AREAS, BUTTON_DELAY_CLICK, UI_THEME };

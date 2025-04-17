@@ -1,5 +1,4 @@
 <div class="configuration-container">
-    <h1>Configurations</h1>
     <form methot="POST">
         <div class="form-group">
             <label>
@@ -18,5 +17,26 @@
             <input type="number" placeholder="BUTTON_DELAY_CLICK: " id="buttonDelayClickInput" min="500" max="10000" step="100" />
             <button id="setButtonDelayClick" class="button" title="Set BUTTON_DELAY_CLICK value" aria-label="Set BUTTON_DELAY_CLICK value">Set</button>
         </div><!--form-group-->
+        <div class="form-group">
+            <label>
+                <i class="fa-solid fa-circle-half-stroke"></i>
+                <span>UI Theme</span>
+            </label>
+            <div class="custom-select" id="themeSelector">
+                <div class="selected-option" title="Select Theme">
+                    <span>Light</span>
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+                <div class="options hidden">
+                    <div class="option" data-value="light">
+                        <span>Light</span>
+                    </div>
+                    <div class="option" data-value="dark">
+                        <span>Dark</span>
+                    </div>
+                </div>
+            </div>
+            <button id="setThemeButton" class="button" title="Set UI_THEME" aria-label="Set UI_THEME">Set</button>
+        </div>
     </form>
 </div><!--configuration-container-->
