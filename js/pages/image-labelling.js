@@ -80,7 +80,7 @@ export function init() {
 
     document?.addEventListener('click', function (e) {
         const selectedOption = e.target.closest('.selected-option');
-        if (selectedOption) {
+        if (selectedOption && selectedOption.closest('.custom-select.trafficLightSelector')) {
             // Primeiro fechamos todos os outros dropdowns com animação.
             document.querySelectorAll('.options:not(.hidden)')
                 .forEach(dropdown => {
@@ -123,7 +123,7 @@ export function init() {
         }
     
         const option = e.target.closest('.option');
-        if (option) {
+        if (option && option.closest('.custom-select.trafficLightSelector')) {
             const customSelect = option.closest('.custom-select');
             const selectedOption = customSelect.querySelector('.selected-option span');
             const selectedImg = customSelect.querySelector('.selected-img');
@@ -175,7 +175,7 @@ export function init() {
         }
 
         // Fecha todos os dropdowns quando clicar fora com animação.
-        if (!e.target.closest('.custom-select')) {
+        if (!e.target.closest('.custom-select.trafficLightSelector')) {
             document.querySelectorAll('.options:not(.hidden)').forEach(dropdown => {
                 // Aplica animação de fadeOut.
                 dropdown.classList.add('hidden');
@@ -543,7 +543,7 @@ export function init() {
             <td>${newId}</td>
             <td>
                 <div class="td-flex-content">
-                    <div class="custom-select">
+                    <div class="custom-select trafficLightSelector">
                         <div class="selected-option" title="Select Traffic Light Type">
                             <span>Select</span>
                             <img class="selected-img" src="" alt="icon" style="display: none;" />
