@@ -214,6 +214,8 @@ export function init() {
         };
     }
 
+
+    /*
     // Função de redimensionamento com throttle para evitar múltiplas chamadas.
     const throttledResize = throttle(() => {
         updateLastViewportInfo();
@@ -222,6 +224,22 @@ export function init() {
 
     // Adiciona evento de redimensionamento à janela.
     window?.addEventListener('resize', throttledResize);
+    */
+    const container = document.querySelector(".image-container");
+    let resizeScheduled = false;
+    
+    const observer = new ResizeObserver(() => {
+      if (!resizeScheduled) {
+        resizeScheduled = true;
+        requestAnimationFrame(() => {
+          updateLastViewportInfo();     // Mantém centro
+          resizeCanvasToImage();        // Redimensiona suavemente
+          resizeScheduled = false;
+        });
+      }
+    });
+    
+    observer.observe(container);
 
     // ============================================================================
     // CARREGAMENTO DE IMAGEM.
@@ -721,6 +739,9 @@ export function init() {
         
         // Garante que a imagem permaneça dentro dos limites.
         constrainPan();
+
+        // 🔥 Corrige hitbox após zoom
+        canvas.getObjects().forEach(obj => obj.setCoords());
         
         // Atualiza a visualização.
         canvas.requestRenderAll();
@@ -1190,8 +1211,8 @@ export function init() {
                 obj.set({
                     fontSize: baseFontSize / newZoom
                 });
-                obj.setCoords();
             }
+            obj.setCoords();
         });
         
         // Garante que a imagem fique dentro dos limites.
@@ -1226,6 +1247,8 @@ export function init() {
                     fontSize: baseFontSize / minZoom
                 });
                 obj.setCoords();
+            } else {
+                obj.setCoords(); // 🔥 necessário para os retângulos
             }
         });
 
