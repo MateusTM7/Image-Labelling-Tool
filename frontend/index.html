@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US" data-theme="light" class="loading">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Básico -->
+    <title>FiscalTech - Tools</title>
+    <meta name="description" content="FiscalTech's image markup tool. Upload, edit markups, and export areas in images with precision.">
+    <meta name="keywords" content="FiscalTech, tool, image tagging, image labelling, image annotation, artificial intelligence">
+    <meta name="author" content="FiscalTech">
+    <meta name="robots" content="index, follow">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+    <script src="libs/fabric.min.js"></script>
+    <script src="libs/all.min.js"></script>
+</head>
+<body>
+    <aside id="sidebar" class="sidebar closed">
+        <div class="aside-wraper">
+            <div class="logo-container">
+                <a href="https://fiscaltech.com.br/" target="_blank" class="logo-link">
+                    <img src="assets/logo.png" alt="Logo" class="logo" />
+                </a>
+            </div><!--logo-container-->
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="/home" class="nav-link" aria-label="Home" title="Home">
+                            <i class="fa-solid fa-house"></i>
+                            <span>Home</span>
+                        </a><!--nav-link-->
+                    </li>
+                    <li>
+                        <a href="/image-labelling" class="nav-link" aria-label="Image Labelling Tool" title="Image Labelling Tool">
+                            <i class="fa-solid fa-layer-group"></i>
+                            <span>Image Labelling Tool</span>
+                        </a><!--nav-link-->
+                    </li>
+                    <li>
+                        <a href="/configuration" class="nav-link" aria-label="Config" title="Config">
+                            <i class="fa-solid fa-gear"></i>
+                            <span>Configuration</span>
+                        </a><!--nav-link-->
+                    </li>
+                    <li>
+                        <a href="/apidocs" class="nav-link" aria-label="Fiscal Tech - Tools API" title="Fiscal Tech - Tools API" target="_blank">
+                            <i class="fa-solid fa-file"></i>
+                            <span>Swagger</span>
+                        </a><!--nav-link-->
+                    </li>
+                </ul>
+            </nav><!--sidebar-nav-->
+        </div><!--aside-wraper-->
+    </aside><!--sidebar-->
+    <main id="mainContent" class="expanded">
+        <header class="main-header">
+            <button id="breadcrumb" class="breadcrumb" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>
+            <span id="pageTitle">Image Labelling Tool</span>
+        </header><!--main-header-->
+        <div class="overlay" id="mainOverlay">
+            <div class="spinner"></div>
+        </div><!--overlay-->
+        <div class="alert-box" id="alertBox">
+            <span class="title">Alert <i class="fa-solid fa-triangle-exclamation"></i></span>
+            <span class="mensagem">Test Message</span>
+        </div><!--alert-box-->
+        <div class="container">
+            <div id="app" class="app">
+                {{content}}
+            </div><!--app-->
+        </div><!--container-->
+    </main>
+    <script type="module" src="js/routes.js"></script>
+    <script type="module" src="js/utils/aside.js"></script>
+    <script type="module" src="js/utils/preventSpanClick.js"></script>
+    <noscript>
+        <div style="color: red; text-align: center; padding: 10px;">
+            This site requires JavaScript to function properly.
+        </div>
+      </noscript>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<div class="configuration-container page-container">
+    <div class="page-wraper">
+        <form methot="POST">
+            <div class="form-group">
+                <label>
+                    <i class="fa-solid fa-layer-group"></i>
+                    <span>MAX_AREAS</span>
+                </label>
+                <p>Defines the maximum amount of areas that could be created in the Image Labelling.</p>
+                <input type="number" placeholder="MAX_AREAS: " id="maxAreasInput" min="1" max="30" step="1" />
+                <button id="setMaxAreasValue" class="button" title="Set MAX_AREAS value" aria-label="Set MAX_AREAS value">Set</button>
+            </div><!--form-group-->
+            <div class="form-group">
+                <label>
+                    <i class="fa-solid fa-stopwatch"></i>
+                    <span>BUTTON_DELAY_CLICK</span>
+                </label>
+                <p>Defines the time delay (ms) that the user needs to wait before clicking again in and execute a button function in UI.</p>
+                <input type="number" placeholder="BUTTON_DELAY_CLICK: " id="buttonDelayClickInput" min="500" max="10000" step="100" />
+                <button id="setButtonDelayClick" class="button" title="Set BUTTON_DELAY_CLICK value" aria-label="Set BUTTON_DELAY_CLICK value">Set</button>
+            </div><!--form-group-->
+            <div class="form-group">
+                <label>
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                    <span>UI Theme</span>
+                </label>
+                <p>Defines the visible theme in UI (colors only).</p>
+                <div class="custom-select" id="themeSelector">
+                    <div class="selected-option" title="Select Theme">
+                        <span>Light</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </div>
+                    <div class="options hidden">
+                        <div class="option" data-value="light">
+                            <span>Light</span>
+                        </div>
+                        <div class="option" data-value="dark">
+                            <span>Dark</span>
+                        </div>
+                    </div>
+                </div>
+                <button id="setThemeButton" class="button" title="Set UI_THEME" aria-label="Set UI_THEME">Set</button>
+            </div>
+        </form>
+    </div><!--page-wraper-->
+</div><!--configuration-container page-container-->
