@@ -45,7 +45,7 @@
         --alert-message: var(--dark-gray);
     
         /* Overlay */
-        --overlay-backgroud: rgba(var(--white-rgb), 0.7);
+        --overlay-backgroud: var(--white);
         --overlay-spinner: var(--primary-color);
         --overlay-spinner-border: var(--lighter-gray);
     
@@ -169,7 +169,7 @@
         --alert-message: var(--dark-gray);
     
         /* Overlay */
-        --overlay-backgroud: rgba(var(--white-rgb), 0.7);
+        --overlay-backgroud: var(--dark-gray);
         --overlay-spinner: var(--terciary-color);
         --overlay-spinner-border: var(--lighter-gray);
     
@@ -282,6 +282,7 @@ html, body {
     height: 100vh;
     overflow: hidden;
     padding: 0;
+    position: relative;
     scroll-behavior: smooth;
     width: 100vw;
 }
@@ -357,11 +358,6 @@ textarea {
     color: var(--button-text-active);
 }
 
-#mainOverlay {
-  opacity: 0;
-  display: none;
-}
-
 /* Alerta */
 .alert-box {
     align-items: center;
@@ -413,25 +409,28 @@ textarea {
 .overlay {
     align-items: center;
     background-color: var(--overlay-backgroud);
-    display: none;
+    display: flex;
     height: 100%;
     justify-content: center;
     left: 0;
+    opacity: 1;
     position: absolute;
-    top: 0;
-    transition: all 0.3s ease;
+    pointer-events: all;
+    top: 50px;
+    transition: all 0.3s ease-out;
     width: 100%;
     z-index: 10;
 }
 
-.overlay.show {
-    display: flex;
-    opacity: 1;
+#fullOverlay.overlay {
+    top: 0px;
+    z-index: 11;
 }
 
-.overlay.hide {
-    opacity: 0;
+.overlay.hidden {
     pointer-events: none;
+    opacity: 0;
+    display: none;
 }
 
 .spinner {
@@ -588,6 +587,7 @@ main {
     height: 100%;
     min-height: 0;
     transition: all 0.3s ease-in-out;
+    position: relative;
     width: clamp(calc(100% - 300px), calc(80%), calc(100% - 100px));
 }
 

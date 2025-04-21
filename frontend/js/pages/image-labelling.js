@@ -214,17 +214,6 @@ export function init() {
         };
     }
 
-
-    /*
-    // Função de redimensionamento com throttle para evitar múltiplas chamadas.
-    const throttledResize = throttle(() => {
-        updateLastViewportInfo();
-        resizeCanvasToImage();
-    }, 100);
-
-    // Adiciona evento de redimensionamento à janela.
-    window?.addEventListener('resize', throttledResize);
-    */
     const container = document.querySelector(".image-container");
     let resizeScheduled = false;
     
@@ -232,8 +221,8 @@ export function init() {
       if (!resizeScheduled) {
         resizeScheduled = true;
         requestAnimationFrame(() => {
-          updateLastViewportInfo();     // Mantém centro
-          resizeCanvasToImage();        // Redimensiona suavemente
+          updateLastViewportInfo();     // Mantém centro.
+          resizeCanvasToImage();        // Redimensiona suavemente.
           resizeScheduled = false;
         });
       }
@@ -259,7 +248,7 @@ export function init() {
         const reader = new FileReader();
 
         // Mostra overlay de carregamento.
-        fadeIn(overlay, 'flex');
+        fadeIn(overlay, 'flex', '0.3');
 
         reader.onload = () => {
             // Cria uma imagem para obter as dimensões e verificar se carregou.
@@ -308,11 +297,11 @@ export function init() {
                         updateLastViewportInfo();
                         resizeCanvasToImage();
                         // Esconde o botão de carregar e mostra a seção de áreas.
-                        fadeOut(loadImageButton, () => {
+                        fadeOut(loadImageButton, '0.3', () => {
                             fadeIn(areaSection, 'flex');
                             fadeOut(overlay);
                         });
-                    }, 100);
+                    }, 500);
                 });
             };
             img.src = reader.result;

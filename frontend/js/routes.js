@@ -1,3 +1,5 @@
+import { fadeIn, fadeOut } from './utils/effects.js';
+
 // Definindo as rotas e seus respectivos títulos e arquivos HTML
 const routes = {
     '': { title: 'Home', html: '/pages/home.html' },  // Rota padrão, página inicial.
@@ -10,19 +12,20 @@ const routes = {
 // Elementos DOM que serão manipulados
 const app = document.getElementById('app');  // Contêiner onde o conteúdo da página será renderizado.
 const titleEl = document.getElementById('pageTitle');  // Elemento onde o título da página será exibido.
-const overlay = document.getElementById('mainOverlay');  // Elemento para mostrar ou esconder o overlay de carregamento.
-
-// Função para mostrar ou esconder o overlay de carregamento.
-function showLoading(show = true) {
-    overlay.style.display = show ? 'flex' : 'none';  // Exibe ou oculta o overlay dependendo do parâmetro 'show'.
-}
+const fullOverlay = document.getElementById('fullOverlay');  // Elemento para mostrar ou esconder o overlay de carregamento.
+const mainOverlay = document.getElementById('mainOverlay');  // Elemento para mostrar ou esconder o overlay de carregamento.
 
 // Função para renderizar a rota com base na URL.
 async function renderRoute(pathname = window.location.pathname) {
 
     if (pathname === '/home') pathname = '/';
-
-    showLoading(true);  // Exibe o overlay de carregamento.
+    
+    fadeIn(mainOverlay, "flex", "0.001");
+    setTimeout(() => {
+        requestAnimationFrame(() => {
+            fullOverlay.classList.add("hidden");
+        });
+    }, 1000);
 
     // Busca a rota correspondente ao caminho.
     const route = routes[pathname] || null;
@@ -46,7 +49,12 @@ async function renderRoute(pathname = window.location.pathname) {
             app.innerHTML = '<div class="error-container page-container"><div class="page-wraper"><h1>404 - Page Not Found</h1></div></div>';
             titleEl.textContent = 'Error';
         }
-        showLoading(false);
+        setTimeout(() => {
+            requestAnimationFrame(() => {
+                fadeOut(mainOverlay);
+            });
+        }, 300);
+        //showLoading(false);
         return;
     }
 
@@ -94,7 +102,14 @@ async function renderRoute(pathname = window.location.pathname) {
         console.error(e);  // Add this to see the actual error
     }
 
-    showLoading(false);  // Oculta o overlay de carregamento após o processo ser concluído.
+    //showLoading(false);  // Oculta o overlay de carregamento após o processo ser concluído.
+    setTimeout(() => {
+        requestAnimationFrame(() => {
+            fadeOut(mainOverlay);
+        });
+    }, 300);
+    //showLoading(false);
+    return;
 }
 
 // Intercepta cliques em links internos e usa history.pushState para evitar reload da página
