@@ -1,20 +1,20 @@
 from flask import Blueprint, jsonify, request
-from utils.config import read_config, update_config, validate_config_parameter
+from utils.config import read_config, update_config, validate_parameter
 
-configuration_bp = Blueprint('configuration_bp', __name__)
+parameters_bp = Blueprint('parameters_bp', __name__)
 
 VALID_PARAMETERS = {"MAX_AREAS", "BUTTON_DELAY_CLICK", "UI_THEME"}
 
-@configuration_bp.route('', methods=['GET'])
+@parameters_bp.route('', methods=['GET'])
 def get_config():
     """
-    Get full config.
+    Get full parameters.
     ---
     tags:
-      - Configuration
+      - Parameters
     responses:
       200:
-        description: Return the complete config file.
+        description: Return the complete parameters file.
       500:
         description: Internal Error.
     """
@@ -24,15 +24,15 @@ def get_config():
             return jsonify(config), 500
         return jsonify(config)
     except Exception as e:
-        return jsonify({"error": f"Failed to read configuration file: {str(e)}."}), 500
+        return jsonify({"error": f"Failed to read parameters file: {str(e)}."}), 500
 
-@configuration_bp.route('/update/<parameter>', methods=['POST'])
+@parameters_bp.route('/update/<parameter>', methods=['POST'])
 def update_config_param(parameter):
     """
-    Update specific configuration parameters.
+    Update specific parameter.
     ---
     tags:
-      - Configuration
+      - Parameters
     parameters:
       - name: parameter
         in: path
@@ -67,7 +67,7 @@ def update_config_param(parameter):
     value = data[parameter]
 
     # Validação customizada (você cria depois)
-    valid, error_msg = validate_config_parameter(parameter, value)
+    valid, error_msg = validate_parameter(parameter, value)
     if not valid:
         return jsonify({"error": error_msg}), 400
 
@@ -75,4 +75,4 @@ def update_config_param(parameter):
         update_config({parameter: value})
         return jsonify({"message": f"{parameter} updated to {value} successfully."})
     except Exception as e:
-        return jsonify({"error": f"Error saving configuration: {str(e)}."}), 500
+        return jsonify({"error": f"Error saving parameters: {str(e)}."}), 500

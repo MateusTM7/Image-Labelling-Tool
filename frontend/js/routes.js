@@ -4,7 +4,7 @@ const routes = {
     '/': { title: 'Home', html: '/pages/home.html' },  // Rota padrão, página inicial.
     '/home': { title: 'Home', html: '/pages/home.html' },  // Rota para a página inicial.
     '/image-labelling': { title: 'Image Labelling Tool', html: '/pages/image-labelling.html' },  // Rota para a ferramenta de rotulagem de imagens.
-    '/configuration': { title: 'Configuration', html: '/pages/configuration.html' }  // Rota para a página de configurações.
+    '/parameters': { title: 'Parameters', html: '/pages/parameters.html' }  // Rota para a página de configurações.
 };
 
 // Elementos DOM que serão manipulados
@@ -78,19 +78,19 @@ async function renderRoute(pathname = window.location.pathname) {
         console.error(e);  // Add this to see the actual error
     }
 
-    // Tenta carregar e inicializar scripts específicos para a rota '/configuration'.
+    // Tenta carregar e inicializar scripts específicos para a rota '/parameters'.
     try {
-        if (pathname === '/configuration') {  // Use pathname instead of path
+        if (pathname === '/parameters') {  // Use pathname instead of path
             // Primeiro importa o config e aguarda o carregamento do JSON
             const { configPromise } = await import('./config/config.js');
             await configPromise;
             // Só depois importa o módulo da página e inicia
-            const module = await import('./pages/configuration.js');
+            const module = await import('./pages/parameters.js');
             module.init();
         }
     } catch (e) {
-        // Se ocorrer um erro ao carregar o script da rota '/configuration', exibe uma mensagem de erro.
-        console.log("Error in loading the configuration.js file or the config.json file.");
+        // Se ocorrer um erro ao carregar o script da rota '/parameters', exibe uma mensagem de erro.
+        console.log("Error in loading the parameters.js file or the config.json file.");
         console.error(e);  // Add this to see the actual error
     }
 

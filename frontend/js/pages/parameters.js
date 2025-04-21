@@ -64,7 +64,7 @@ export function init() {
                     const bodyDataMaxAreas = { MAX_AREAS: maxAreasValue };
                     console.log('Enviando:', JSON.stringify(bodyDataMaxAreas));
 
-                    const response = await fetch('/api/v1/configuration/update/MAX_AREAS', {
+                    const response = await fetch('/api/v1/parameters/update/MAX_AREAS', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -78,7 +78,7 @@ export function init() {
                         showAlert('Success', `MAX_AREAS updated to ${maxAreasValue}.`, "fa-solid fa-check");
                     } else {
                         // Exibe um alerta de erro genérico caso a atualização falhe.
-                        showAlert('Error', 'Failed to update the configuration.', "fa-solid fa-xmark");
+                        showAlert('Error', 'Failed to update the parameter.', "fa-solid fa-xmark");
                     }
                 } catch (err) {
                     // Erro de comunicação (ex: servidor offline, rota inexistente, etc).
@@ -142,7 +142,7 @@ export function init() {
                     const bodyDataButtonDelayClick = { BUTTON_DELAY_CLICK: delayValue };
                     console.log('Enviando:', JSON.stringify(bodyDataButtonDelayClick));
 
-                    const response = await fetch('/api/v1/configuration/update/BUTTON_DELAY_CLICK', {
+                    const response = await fetch('/api/v1/parametersn/update/BUTTON_DELAY_CLICK', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -153,7 +153,7 @@ export function init() {
                     if (response.ok) {
                         showAlert('Success', `BUTTON_DELAY_CLICK updated to ${delayValue} ms.`, "fa-solid fa-check");
                     } else {
-                        showAlert('Error', 'Failed to update the configuration.', "fa-solid fa-xmark");
+                        showAlert('Error', 'Failed to update the parameter.', "fa-solid fa-xmark");
                     }
                 } catch (err) {
                     showAlert('Error', 'Error communicating with the server.', "fa-solid fa-xmark");
@@ -268,7 +268,7 @@ export function init() {
                 const bodyDataUiTheme = { UI_THEME: newTheme };
                 console.log('Enviando:', JSON.stringify(bodyDataUiTheme));
 
-                const response = await fetch('/api/v1/configuration/update/UI_THEME', {
+                const response = await fetch('/api/v1/parameters/update/UI_THEME', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(bodyDataUiTheme)

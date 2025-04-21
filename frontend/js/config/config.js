@@ -16,7 +16,7 @@ function applyTheme(theme) {
 }
 
 // Carrega configuração do JSON.
-const configPromise = fetch('/api/v1/configuration')
+const configPromise = fetch('/api/v1/parameters')
 .then(response => response.json())
 .then(config => {
 

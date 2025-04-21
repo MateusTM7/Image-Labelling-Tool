@@ -1,7 +1,7 @@
 import os
 import json
 
-CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/config.json')
+CONFIG_FILE_PATH = os.path.join(os.path.dirname(__file__), '../config/parameters.json')
 
 def read_config():
     if not os.path.exists(CONFIG_FILE_PATH):
@@ -33,7 +33,7 @@ def update_config(updates):
     with open(CONFIG_FILE_PATH, 'w') as file:
         json.dump(config, file, indent=4)
 
-def validate_config_parameter(param, value):
+def validate_parameter(param, value):
     if param == "MAX_AREAS":
         if isinstance(value, int) and value >= 0:
             return True, None

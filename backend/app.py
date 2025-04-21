@@ -4,7 +4,7 @@ import os
 
 from api.v1.real_time_routes import real_time_bp
 from api.v1.config_routes import config_bp
-from api.v1.configuration_routes import configuration_bp
+from api.v1.parameters_routes import parameters_bp
 
 frontend_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '../frontend'))
 
@@ -44,12 +44,12 @@ swagger = Swagger(app, config=swagger_config, template=swagger_template)
 # Register Blueprints com prefixo da versão
 app.register_blueprint(real_time_bp, url_prefix='/api/v1/real-time')
 app.register_blueprint(config_bp, url_prefix='/api/v1/config')
-app.register_blueprint(configuration_bp, url_prefix='/api/v1/configuration')
+app.register_blueprint(parameters_bp, url_prefix='/api/v1/parameters')
 
 # Rotas principais do SPA (sem recarregar a página)
 @app.route('/')
 @app.route('/home')
-@app.route('/configuration')
+@app.route('/parameters')
 @app.route('/image-labelling')
 def serve_spa():
     return send_from_directory(app.static_folder, 'index.html')
@@ -59,7 +59,7 @@ def serve_spa():
 def not_found(e):
     path = request.path
     if path.startswith('/api/'):
-        return jsonify({"error": "API endpoint not found"}), 404
+        return jsonify({"error": "API endpoint not found."}), 404
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == "__main__":
