@@ -1,4 +1,6 @@
 import { fadeIn, fadeOut } from './utils/effects.js';
+import { hasUnsavedAreas, clearSavedAreas } from './pages/image-labelling.js';
+import { showConfirm } from './utils/alertManager.js';
 
 // Definindo as rotas e seus respectivos títulos e arquivos HTML
 const routes = {
@@ -113,21 +115,75 @@ async function renderRoute(pathname = window.location.pathname) {
 }
 
 // Intercepta cliques em links internos e usa history.pushState para evitar reload da página
-document.addEventListener('click', e => {
+document.addEventListener('click', async (e) => {
+
+    const newPath = window.location.pathname;
+
     const link = e.target.closest('a');
     if (link && link.hostname === window.location.hostname && link.pathname in routes) {
         e.preventDefault();
+
+        // Se estiver na rota /image-labelling e tiver áreas não salvas
+        if (window.location.pathname === '/image-labelling' && hasUnsavedAreas()) {
+            const confirmed = await showConfirm("Confirm exit", "Do you really want to leave the image with unsaved areas?");
+            if (!confirmed) return;
+        }
+
+        lastKnownPath = link.pathname;
         history.pushState(null, '', link.pathname);
+
         renderRoute(link.pathname);
+        // Se saiu da rota de image-labelling, limpa o estado
+        if (newPath !== '/image-labelling') {
+            clearSavedAreas();
+        }
     }
 });
 
 // Quando o usuário usa os botões de voltar/avançar do navegador
-window.addEventListener('popstate', () => {
-    renderRoute();
+let lastKnownPath = window.location.pathname;
+
+window.addEventListener('popstate', async () => {
+
+    if (lastKnownPath === '/image-labelling' && hasUnsavedAreas()) {
+        const confirmed = await showConfirm("Confirm exit", "Do you really want to leave the image with unsaved areas?");
+        if (!confirmed) {
+            // Impede a troca voltando para onde estava
+            history.pushState(null, '', lastKnownPath);
+            return;
+        }
+    }
+
+    const newPath = window.location.pathname;
+
+    // Atualiza o histórico atual.
+    lastKnownPath = newPath;
+
+    renderRoute(newPath);
+
+    // Se saiu da rota de image-labelling, limpa o estado.
+    if (newPath !== '/image-labelling') {
+        clearSavedAreas();
+    }
 });
 
 // Quando a página termina de carregar
 window.addEventListener('DOMContentLoaded', () => {
+
     renderRoute();
+
+    const newPath = window.location.pathname;
+
+    // Se saiu da rota de image-labelling, limpa o estado
+    if (newPath !== '/image-labelling') {
+        clearSavedAreas();
+    }
+});
+
+window.addEventListener('beforeunload', (e) => {
+    const isEditing = window.location.pathname === '/image-labelling' && hasUnsavedAreas();
+    if (isEditing) {
+        e.preventDefault();
+        e.returnValue = ''; // Necessário para que o navegador exiba o alerta padrão
+    }
 });

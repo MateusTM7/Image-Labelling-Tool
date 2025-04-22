@@ -4,9 +4,19 @@
  * e funcionalidades de zoom em uma aplicação de rotulagem.
  */
 
-import { showAlert } from '../utils/alertManager.js';
+import { showAlert, showConfirm } from '../utils/alertManager.js';
 import { fadeIn, fadeOut } from '../utils/effects.js';
 import { MAX_AREAS } from '../config/config.js';
+
+export let areasData = []; // Agora é acessível fora da função.
+
+export function hasUnsavedAreas() {
+    return areasData.length > 0;
+}
+
+export function clearSavedAreas() {
+    areasData.length = 0;
+}
 
 export function init() {
 
@@ -72,7 +82,6 @@ export function init() {
     // ============================================================================
 
     const rectsMap = new Map();  // Mapa para armazenar referências aos retângulos.
-    const areasData = [];  // Array para armazenar dados de cada área.
 
     // ============================================================================
     // GERENCIAMENTO DO SELETOR PERSONALIZADO.
@@ -632,7 +641,11 @@ export function init() {
 
         // Configura o botão de excluir área.
         const deleteBtn = row.querySelector('.delete-icon');
-        deleteBtn?.addEventListener('click', () => {
+        deleteBtn?.addEventListener('click', async () => {
+
+            const confirmed = await showConfirm("Confirm delete", `Do you really want to delete the area ${newId}?`);
+            if (!confirmed) return;
+
             deleteArea(newId, row);
         });
         
