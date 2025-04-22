@@ -20,7 +20,7 @@ async function renderRoute(pathname = window.location.pathname) {
 
     if (pathname === '/home') pathname = '/';
     
-    fadeIn(mainOverlay, "flex", "0.001");
+    fadeIn(mainOverlay, "flex", "0.001", '1');
     setTimeout(() => {
         requestAnimationFrame(() => {
             fullOverlay.classList.add("hidden");

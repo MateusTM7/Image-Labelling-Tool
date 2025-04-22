@@ -23,13 +23,13 @@ configPromise.then(config => {
  * @param {number} delay - Tempo em milissegundos para reabilitar o botão (padrão: 1000ms).
  */
 function preventSpamClicks(button, delay = buttonDelay) {
-    // Se o botão já estiver desabilitado, não faz nada
+    // Se o botão já estiver desabilitado, não faz nada.
     if (button.disabled) return;
 
-    // Desativa o botão
+    // Desativa o botão.
     button.disabled = true;
 
-    // Reativa o botão após o tempo especificado
+    // Reativa o botão após o tempo especificado.
     setTimeout(() => {
         button.disabled = false;
     }, delay);
@@ -38,9 +38,9 @@ function preventSpamClicks(button, delay = buttonDelay) {
 // Escuta todos os cliques no documento.
 document.addEventListener('click', function (e) {
 
-    const btn = e.target.closest('.button'); // Garante que clicou em um botão ou em um elemento filho dele
+    const btn = e.target.closest('.button'); // Garante que clicou em um botão ou em um elemento filho dele.
     
-     // Chama a função que previne spam
+     // Chama a função que previne spam.
     if (btn) {
         preventSpamClicks(btn);
     }

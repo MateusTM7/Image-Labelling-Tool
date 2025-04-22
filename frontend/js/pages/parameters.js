@@ -3,9 +3,12 @@
  * Este script gerencia o CRUD de configs e UI.
  */
 
-import { showAlert } from '../utils/alertManager.js';
-import { capitalize } from '../utils/strings.js'
+import { showAlert, showConfirm } from '../utils/alertManager.js';
 import { MAX_AREAS, BUTTON_DELAY_CLICK, UI_THEME, applyTheme } from '../config/config.js';
+
+function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 export function init() {
     
@@ -16,12 +19,14 @@ export function init() {
     const maxAreasInput = document.getElementById('maxAreasInput');
     const setMaxAreasButton = document.getElementById('setMaxAreasValue');
 
+    let currentMaxAreas = MAX_AREAS;
+
     if (maxAreasInput) {
 
         const MIN = 1;
         const MAX = 30;
     
-        maxAreasInput.value = MAX_AREAS;
+        maxAreasInput.value = currentMaxAreas;
         maxAreasInput.min = MIN;
         maxAreasInput.max = MAX;
         maxAreasInput.step = 1;
@@ -40,8 +45,8 @@ export function init() {
             if (value > MAX) maxAreasInput.value = MAX;
         });
 
-        maxAreasInput.placeholder = `MAX_AREAS: ${MAX_AREAS}`;
-        maxAreasInput.value = MAX_AREAS;
+        maxAreasInput.placeholder = `MAX_AREAS: ${currentMaxAreas}`;
+        maxAreasInput.value = currentMaxAreas;
     }
 
     if (setMaxAreasButton && maxAreasInput) {
@@ -53,8 +58,16 @@ export function init() {
             const maxAreasValue = parseInt(maxAreasInput.value, 10);
     
             // Verifica se é um número válido, dentro do intervalo permitido e diferente do valor atual.
-            if (!isNaN(maxAreasValue) && maxAreasValue >= 1 && maxAreasValue <= 30 && maxAreasValue  !== MAX_AREAS) {
+            if (!isNaN(maxAreasValue) && maxAreasValue >= 1 && maxAreasValue <= 30 && maxAreasValue  !== currentMaxAreas) {
                 try {
+
+                    const confirmedMaxAreasValue = await showConfirm(
+                        "Confirm change",
+                        `Do you really want to change the value of MAX_AREAS to ${maxAreasValue}?`
+                    );
+
+                    if (!confirmedMaxAreasValue) return; // Usuário cancelou.
+
                     // Envia uma requisição POST para o backend com o novo valor de MAX_AREAS.
                     
                     // ===========================================================
@@ -62,7 +75,6 @@ export function init() {
                     // ===========================================================
 
                     const bodyDataMaxAreas = { MAX_AREAS: maxAreasValue };
-                    console.log('Enviando:', JSON.stringify(bodyDataMaxAreas));
 
                     const response = await fetch('/api/v1/parameters/update/MAX_AREAS', {
                         method: 'POST',
@@ -75,6 +87,9 @@ export function init() {
                     // Verifica se a resposta foi bem-sucedida.
                     if (response.ok) {
                         // Exibe um alerta de sucesso usando o alertManager.
+                        currentMaxAreas = maxAreasValue;
+                        maxAreasInput.placeholder = `MAX_AREAS: ${currentMaxAreas}`;
+                        maxAreasInput.value = currentMaxAreas;
                         showAlert('Success', `MAX_AREAS updated to ${maxAreasValue}.`, "fa-solid fa-check");
                     } else {
                         // Exibe um alerta de erro genérico caso a atualização falhe.
@@ -98,12 +113,14 @@ export function init() {
     const delayInput = document.getElementById('buttonDelayClickInput');
     const setDelayButton = document.getElementById('setButtonDelayClick');
 
+    let currentDelayClick = BUTTON_DELAY_CLICK;
+
     if (delayInput) {
 
         const MIN_DELAY = 500;
         const MAX_DELAY = 10000;
 
-        delayInput.value = BUTTON_DELAY_CLICK;
+        delayInput.value = currentDelayClick;
         delayInput.min = MIN_DELAY;
         delayInput.max = MAX_DELAY;
         delayInput.step = 100;
@@ -120,7 +137,8 @@ export function init() {
             if (value > MAX_DELAY) delayInput.value = MAX_DELAY;
         });
 
-        delayInput.placeholder = `DELAY: ${BUTTON_DELAY_CLICK}ms`;
+        delayInput.value = currentDelayClick;
+        delayInput.placeholder = `DELAY: ${currentDelayClick}ms`;
     }
 
     if (setDelayButton && delayInput) {
@@ -130,7 +148,15 @@ export function init() {
 
             const delayValue = parseInt(delayInput.value, 10);
 
-            if (!isNaN(delayValue) && delayValue >= 500 && delayValue <= 10000 && delayValue !== BUTTON_DELAY_CLICK) {
+            if (!isNaN(delayValue) && delayValue >= 500 && delayValue <= 10000 && delayValue !== currentDelayClick) {
+
+                // Checa confirmação.
+                const confirmedDelayValue = await showConfirm(
+                    "Confirm change",
+                    `Do you really want to change the value of BUTTON_DELAY_CLICK to ${delayValue}?`
+                );
+
+                if (!confirmedDelayValue) return; // Usuário cancelou.
 
                 // Envia uma requisição POST para o backend com o novo valor de BUTTON_DELAY_CLICK.
                     
@@ -140,9 +166,8 @@ export function init() {
 
                 try {
                     const bodyDataButtonDelayClick = { BUTTON_DELAY_CLICK: delayValue };
-                    console.log('Enviando:', JSON.stringify(bodyDataButtonDelayClick));
 
-                    const response = await fetch('/api/v1/parametersn/update/BUTTON_DELAY_CLICK', {
+                    const response = await fetch('/api/v1/parameters/update/BUTTON_DELAY_CLICK', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
@@ -151,6 +176,9 @@ export function init() {
                     });
 
                     if (response.ok) {
+                        currentDelayClick = delayValue;
+                        delayInput.value = currentDelayClick;
+                        delayInput.placeholder = `DELAY: ${currentDelayClick}ms`;
                         showAlert('Success', `BUTTON_DELAY_CLICK updated to ${delayValue} ms.`, "fa-solid fa-check");
                     } else {
                         showAlert('Error', 'Failed to update the parameter.', "fa-solid fa-xmark");
@@ -171,6 +199,8 @@ export function init() {
 
     const themeSelector = document.getElementById('themeSelector');
     const themeButton = document.getElementById('setThemeButton');
+
+    let currentUiTheme = UI_THEME;
   
     if (themeSelector) {
       themeSelector.addEventListener('click', function (e) {
@@ -235,12 +265,12 @@ export function init() {
     if (themeSelector && themeButton) {
 
         // Define valor inicial com base na config atual
-        themeSelector.value = UI_THEME;
+        themeSelector.value = currentUiTheme;
 
-            // Aplica o tema atual visualmente no custom select
+        // Aplica o tema atual visualmente no custom select
         const selectedSpan = themeSelector.querySelector('.selected-option span');
         if (selectedSpan) {
-            selectedSpan.textContent = capitalize(UI_THEME);
+            selectedSpan.textContent = capitalize(currentUiTheme);
         }
         
         themeButton.addEventListener('click', async (event) => {
@@ -253,7 +283,7 @@ export function init() {
                 return;
             }
     
-            if (newTheme  === UI_THEME) {
+            if (newTheme  === currentUiTheme) {
                 showAlert('Attention', 'Theme is already applied.', "fa-solid fa-triangle-exclamation");
                 return;
             }
@@ -265,8 +295,16 @@ export function init() {
             // ===========================================================
 
             try {
+
+            // Checa confirmação.
+            const confirmedNewThemeValue = await showConfirm(
+                "Confirm change",
+                `Do you really want to change the value of UI_THEME to ${newTheme}?`
+            );
+
+            if (!confirmedNewThemeValue) return; // Usuário cancelou.
+
                 const bodyDataUiTheme = { UI_THEME: newTheme };
-                console.log('Enviando:', JSON.stringify(bodyDataUiTheme));
 
                 const response = await fetch('/api/v1/parameters/update/UI_THEME', {
                     method: 'POST',
@@ -276,7 +314,8 @@ export function init() {
 
                 if (response.ok) {
                     applyTheme(newTheme); // Aplica sem recarregar a página.
-                    showAlert('Success', `Theme updated to "${newTheme}".`, "fa-solid fa-check");
+                    currentUiTheme = newTheme;
+                    showAlert('Success', `Theme updated to "${capitalize(newTheme)}".`, "fa-solid fa-check");
                 } else {
                     showAlert('Error', 'Failed to update theme.', "fa-solid fa-xmark");
                 }

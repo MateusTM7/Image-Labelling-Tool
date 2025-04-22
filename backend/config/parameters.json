@@ -1,5 +1,5 @@
 {
     "MAX_AREAS": 10,
-    "BUTTON_DELAY_CLICK": 2000,
+    "BUTTON_DELAY_CLICK": 1900,
     "UI_THEME": "light"
 }

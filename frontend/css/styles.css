@@ -359,7 +359,8 @@ textarea {
 }
 
 /* Alerta */
-.alert-box {
+.alert-box,
+.confirm-box {
     align-items: center;
     background-color: var(--alert-background);
     border: 1px solid var(--alert-border);
@@ -379,30 +380,65 @@ textarea {
     position: fixed;
     top: -100px;
     transform: translateX(-50%);
-    transition: all 0.4s ease;
+    transition: all 0.5s ease;
     width: 90%;
-    z-index: 9;
+    z-index: 6;
 }
 
-.alert-box.show {
+.alert-box.show,
+.confirm-box.show {
     top: 25px;
     opacity: 1;
 }
 
-.alert-box .title {
+.alert-box .title,
+.confirm-box .title {
     color: var(--alert-title);
     font-size: 16px;
     font-weight: 600;
 }
 
-.alert-box .title i {
+.alert-box .title i,
+.confirm-box .title i {
     font-size: 16px;
     margin-right: 8px;
 }
 
-.alert-box .mensagem {
+.alert-box .message,
+.confirm-box .message {
     color: var(--alert-message);
     font-size: 14px;
+}
+
+.confirm-box .confirm-wraper {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-top: 8px;
+    width: 80%;
+}
+
+.confirm-box .confirm-wraper .button {
+    margin: 0 auto;
+}
+
+#confirmOverlay {
+    display: none;
+    background-color: var(--overlay-backgroud);
+    height: 100%;
+    left: 0;
+    opacity: .0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+
+#confirmOverlay.show {
+    display: flex;
+    opacity: .7;
 }
 
 /* Overlay */
@@ -419,12 +455,12 @@ textarea {
     top: 50px;
     transition: all 0.3s ease-out;
     width: 100%;
-    z-index: 10;
+    z-index: 8;
 }
 
 #fullOverlay.overlay {
     top: 0px;
-    z-index: 11;
+    z-index: 9;
 }
 
 .overlay.hidden {
@@ -1348,16 +1384,31 @@ main.expanded {
 
 @media (max-width: 768px) {
 
-    .alert-box {
+    .alert-box,
+    .confirm-box {
         max-width: 150px;
     }
 
-    .alert-box .title {
+    .alert-box .title,
+    .confirm-box .title {
         font-size: 13px;
     }
     
-    .alert-box .mensagem {
+    .alert-box .message,
+    .confirm-box .message {
         font-size: 10px;
+    }
+
+    .confirm-box .confirm-wraper {
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 8px;
+        width: 80%;
+    }
+
+    .confirm-box .confirm-wraper .button {
+        font-size: 10px;
+        width: 70%;
     }
 
     .nav-link {

@@ -248,7 +248,7 @@ export function init() {
         const reader = new FileReader();
 
         // Mostra overlay de carregamento.
-        fadeIn(overlay, 'flex', '0.3');
+        fadeIn(overlay, 'flex', '0.3', '1');
 
         reader.onload = () => {
             // Cria uma imagem para obter as dimensões e verificar se carregou.

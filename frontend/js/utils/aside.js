@@ -1,4 +1,5 @@
 document?.addEventListener("DOMContentLoaded", function () {
+
     // Busca os elementos principais da interface.
     const breadcrumb = document.getElementById("breadcrumb");
     const sidebar = document.getElementById("sidebar");
